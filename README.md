@@ -157,7 +157,7 @@ During the review, we will assess:
 
 ## Test Delivery
 
-- Deliver your source code via a pull request to the master branch of the repository.
+- Deliver your source code by forking the repository provided for the test.
 - The branch name should follow this convention: `test/your-name`.
 - Ensure the README.md includes:
   - Setup instructions.
