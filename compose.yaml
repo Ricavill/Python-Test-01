@@ -8,6 +8,14 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
+  app:
+    build: .
+    container_name: sqlite_app
+    env_file:
+      - .env
+    volumes:
+      - ./jelou.db:/app/jelou.db
+    command: [ "python", "app/main.py" ]
   server:
     build:
       context: .
