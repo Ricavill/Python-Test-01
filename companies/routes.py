@@ -30,3 +30,4 @@ def insights(company_id: str, db: Session = Depends(get_db)):
 
 @companies_router.post("/{company_id}/ai-insights")
 def insights(company_id: str, db: Session = Depends(get_db)):
+    pass
