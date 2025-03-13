@@ -16,4 +16,5 @@ def ingest():
         # documenation for more information:
         # https://github.com/Kaggle/kagglehub/blob/main/README.md#kaggledatasetadapterpandas
     )
+
     return {"message": "Ingest successful"}

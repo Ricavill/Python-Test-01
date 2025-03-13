@@ -6,7 +6,7 @@ from config.auth.__init import SECRET_KEY
 from utils.jwt_utils import decode_token
 
 
-class JWTMiddleware(BaseHTTPMiddleware):
+class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         public_routes = ["/api/users/login", "/"]
         # Check if the request path exists in the app's routes
@@ -14,7 +14,7 @@ class JWTMiddleware(BaseHTTPMiddleware):
 
         if not route_exists:
             return await call_next(request)  # Skip authentication for 404 paths
-        
+
         if request.url.path in public_routes:
             return await call_next(request)
 
