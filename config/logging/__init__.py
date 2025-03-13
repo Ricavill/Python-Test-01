@@ -5,7 +5,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 logging.basicConfig(
-    filename='jelou.log',
+    filename='/tmp/jelou.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     filemode='a'

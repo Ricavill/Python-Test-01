@@ -8,7 +8,6 @@ marshmallow-sqlalchemy==1.4.1
 PyJWT==2.10.1
 bcrypt==4.3.0
 huggingface_hub
-torch
 transformers
 pytest
 pytest-cov

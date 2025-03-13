@@ -36,6 +36,7 @@ class TweetRepository(EntityRepository):
         return df
 
     def get_tweets_sent_to_author(self, db_session: Session, author_id: str):
+        #Se definen aliases por que sino no hay como diferenciar una tabla de otra.
         t1 = aliased(Tweet)
         t2 = aliased(Tweet)
         query =  db_session.query(t1).filter(
