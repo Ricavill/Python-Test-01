@@ -15,6 +15,7 @@ For the database route variable, write it like this in order to use SQLite:
 ```env
 DATABASE_URL=sqlite:///mi_base_de_datos.db
 ```
+Also in order to use ai-insights the LLAMA_TOKEN variable needs a valid huggingface token with access to the model meta-llama/Llama-3.1-8B-Instruct.
 
 ## 3. Build and Run the Application
 Execute the following commands:
