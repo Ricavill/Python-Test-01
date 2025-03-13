@@ -5,7 +5,8 @@ from sqlalchemy.orm import Query, Session
 
 from config.models.base import Base
 
-
+#Se creo esta entidad dado que de esta forma podemos tener una manera mas limpia y sin duplicidad de codigo al momento
+#de tener errores.
 class EntityRepository:
     def __init__(self, entity: Base):
         self.entity = entity

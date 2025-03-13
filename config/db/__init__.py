@@ -15,9 +15,9 @@ LocalSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def get_db():
     db: Session = LocalSession()
     try:
-        yield db  # Provide session to request
+        yield db
     finally:
-        db.close()  # Ensure session is closed after request
+        db.close()
 def add_admin_user():
     session = LocalSession()
     user_data = {"email": os.getenv("ADMIN_USER_EMAIL"), "name": os.getenv("ADMIN_USER_NAME"),
@@ -26,5 +26,7 @@ def add_admin_user():
 
 
 def init_db():
+    #Se crean todas las tablas de laas entidades que hereden de Base(si ya existen no pasa nada)
     Base.metadata.create_all(bind=engine)
+    #Se añade a un usuario admin para realizar las peticiones y probar authentication.
     add_admin_user()

@@ -8,7 +8,7 @@ from utils.jwt_utils import decode_token
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        public_routes = ["/api/users/login", "/"]
+        public_routes = ["/api/users/login", "/","/api/v1/openapi.json","/documentation"]
         # Check if the request path exists in the app's routes
         route_exists = any(route.path == request.url.path for route in request.app.router.routes)
 
