@@ -1,3 +1,5 @@
+from typing import List
+
 import pandas as pd
 from pandas import DataFrame
 from sqlalchemy import func, case, cast, Float
@@ -15,15 +17,34 @@ class TweetRepository(EntityRepository):
         query = db_session.query(Tweet)
         return self.first(query)
 
+    def get_all_orm(self, db_session: Session) -> DataFrame:
+        query = db_session.query(Tweet)
+        return self.all(query)
+
     def get_all(self, db_session: Session) -> DataFrame:
         query = db_session.query(Tweet)
         df = pd.read_sql(query.statement, db_session.bind)
         return df
 
+    def get_all_responded_tweets(self, db: Session) -> List[Tweet]:
+        query = db.query(Tweet).filter(Tweet.in_response_to_tweet_id.is_(None))
+        return query
+
     def get_by_author_id(self, db_session: Session, author_id: str) -> DataFrame:
         query = db_session.query(Tweet).filter_by(author_id=author_id)
         df = pd.read_sql(query.statement, db_session.bind)
         return df
+
+    def get_tweets_sent_to_author(self, db_session: Session, author_id: str):
+        t1 = aliased(Tweet)
+        t2 = aliased(Tweet)
+        query =  db_session.query(t1).filter(
+            t1.inbound.is_(True),
+            t1.in_response_to_tweet_id.isnot(None)  # Ensure it's a reply
+        ).join(t2, t1.tweet_id == t2.in_response_to_tweet_id).filter(
+            t2.author_id == author_id, t2.inbound==0
+        )
+        return self.all(query)
 
     def get_tweet_response_rate(self, db_session: Session):
         t1 = aliased(Tweet)

@@ -5,6 +5,7 @@ from config.logging import LoggingMiddleware
 from config.auth.auth_middleware import AuthMiddleware
 from config.db import init_db
 from config.error import init_error_handlers
+from llm.llama import Llama
 from tweet.routes import tweets_router
 from user.routes import users_router
 
