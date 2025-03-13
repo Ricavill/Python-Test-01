@@ -27,6 +27,7 @@ def ingest(db: Session = Depends(get_db)):
         KaggleDatasetAdapter.PANDAS,
         "thoughtvector/customer-support-on-twitter",
         "sample.csv")
+    #Se convierten valores en mal formato para poder ingresar a base de datos.
     df = df.where(pd.notna(df), None)
     df['created_at'] = pd.to_datetime(df['created_at'], format="%a %b %d %H:%M:%S %z %Y")
     tweets = []
