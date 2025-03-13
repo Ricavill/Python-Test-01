@@ -29,6 +29,7 @@ docker compose up
 ---
 
 # API Usages
+**Root url will be localhost.**
 
 ## **Login**
 **Method:** `POST`  
