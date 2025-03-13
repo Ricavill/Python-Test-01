@@ -17,8 +17,8 @@ class Tweet(Base):
     inbound = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, nullable=False)
     text = Column(String, nullable=False)
-    response_tweet_id = Column(String, nullable=True)
-    in_response_to_tweet_id = Column(String, nullable=True)
+    response_tweet_id = Column(Integer, nullable=True)
+    in_response_to_tweet_id = Column(Integer, nullable=True)
 
     def setattr_from_data(self, data: dict):
         for key in data:

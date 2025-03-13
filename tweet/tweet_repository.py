@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
-from sqlalchemy import cast, func, REAL
-from sqlalchemy.orm import Session
+from sqlalchemy import func, case, cast, Float
+from sqlalchemy.orm import Session, aliased
 
 from models.entity_repository import EntityRepository
 from tweet.model import Tweet
@@ -26,20 +26,61 @@ class TweetRepository(EntityRepository):
         return df
 
     def get_tweet_response_rate(self, db_session: Session):
-        t_subquery = (
-            db_session.query(Tweet.id, Tweet.response_tweet_id)
-            .filter(Tweet.response_tweet_id.isnot(None))
-            .subquery()
+        t1 = aliased(Tweet)
+        t2 = aliased(Tweet)
+
+        stmt = db_session.query(
+            (func.count(func.distinct(t1.id)) * 100.0 / func.count(func.distinct(t2.id))).label("response_rate")
+        ).select_from(t1).outerjoin(
+            t2, t1.in_response_to_tweet_id == t2.tweet_id
+        ).filter(t2.inbound == True)
+
+        result = db_session.execute(stmt).scalar()
+        return result or 0
+
+    def get_conversation_ratio(self, db_session: Session):
+        t1 = aliased(Tweet)
+        t2 = aliased(Tweet)
+
+        stmt = db_session.query(
+            (func.count(t1.id) * 1.0 / func.count(t2.id)).label("response_ratio")
+        ).select_from(t1).join(
+            t2, t1.in_response_to_tweet_id == t2.tweet_id
+        ).filter(
+            t1.inbound == 0,
+            t2.inbound == 1
         )
-        query = (
-            db_session.query(
-                cast(
-                    func.sum(func.case([(t_subquery.c.id.isnot(None), 1)], else_=0)) / func.count(),
-                    REAL,
-                ).label("response_ratio")
-            )
-            .select_from(Tweet)
-            .outerjoin(t_subquery, t_subquery.c.response_tweet_id.like("%" + cast(Tweet.tweet_id, REAL) + "%"))
+
+        result = db_session.execute(stmt).scalar()
+        return result or 0
+
+    def get_volume_metrics(self, db_session: Session, company_id: str):
+        stmt = db_session.query(
+            (
+                    func.sum(case((Tweet.response_tweet_id.isnot(None), 1), else_=0)) * 100.0 /
+                    func.sum(case((Tweet.in_response_to_tweet_id.isnot(None), 1), else_=0))
+            ).label("response_rate")
+        ).filter(Tweet.author_id == company_id, Tweet.inbound == 0)
+
+        result = db_session.execute(stmt).scalar()
+        return result or 0
+
+    def get_avg_response_time(self, db_session: Session, company_id: str):
+        t1 = aliased(Tweet)
+        t2 = aliased(Tweet)
+
+        stmt = db_session.query(
+            func.avg(
+                (cast(func.strftime('%s', t1.created_at), Float) - cast(func.strftime('%s', t2.created_at),
+                                                                        Float)) / 60.0
+            ).label("avg_response_time_minutes")
+        ).select_from(t1).join(
+            t2, t1.in_response_to_tweet_id == t2.tweet_id
+        ).filter(
+            t1.inbound == False,
+            t1.author_id == company_id,
+            t2.inbound == True
         )
-        result = db_session.execute(query).scalar()
-        return result
+
+        result = db_session.execute(stmt).scalar()
+        return result or 0
