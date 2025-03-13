@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from sqlalchemy.orm import Query, Session
 
@@ -28,4 +29,13 @@ class EntityRepository:
             return entity
         except Exception as e:
             logging.error(f"Error saving {self.entity.__name__}", e)
+            db.rollback()
+
+    def save_all(self, db: Session, entities: List[Base]) -> List[Base]:
+        try:
+            db.add_all(entities)
+            db.commit()
+            return entities
+        except Exception as e:
+            logging.error(f"Error saving entities {self.entity.__name__}", e)
             db.rollback()
