@@ -29,5 +29,5 @@ def insights(company_id: str, db: Session = Depends(get_db)):
     return JSONResponse(status_code=200, content=response)
 
 @companies_router.post("/{company_id}/ai-insights")
-def insights(company_id: str, db: Session = Depends(get_db)):
-    pass
+def ai_insights(company_id: str, db: Session = Depends(get_db)):
+    return JSONResponse(status_code=200, content={"message": "AI Insights"})
