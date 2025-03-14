@@ -11,7 +11,7 @@ services:
   test:
     build: .
     volumes:
-      - ./test:/app/test
+      - .:/app
     command: [ "pytest", "--cov=." ]
   server:
     build:
