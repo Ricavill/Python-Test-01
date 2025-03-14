@@ -19,6 +19,8 @@ services:
     container_name: app_server
     env_file:
       - .env  # Load environment variables for the server (if needed)
+    volumes:
+      - ./data:/app/data
     ports:
       - "8000:8000"  # Map container port to host
 
