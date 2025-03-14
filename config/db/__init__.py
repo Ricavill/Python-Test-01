@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from config.auth.__init import sign_in_admin_user
+from config.auth.__init__ import sign_in_admin_user
 from config.models.base import Base
 
 JELOU_DB_FILE = os.getenv("JELOU_DB_FILE")

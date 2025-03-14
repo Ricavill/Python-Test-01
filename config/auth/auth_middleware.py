@@ -2,7 +2,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from config.auth.__init import SECRET_KEY
+from config.auth.__init__ import SECRET_KEY
 from utils.jwt_utils import decode_token
 
 

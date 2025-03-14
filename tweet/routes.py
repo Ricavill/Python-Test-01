@@ -38,7 +38,7 @@ def ingest(db: Session = Depends(get_db)):
 
         response_tweet_ids = tweet_data.get("response_tweet_id")
 
-        if response_tweet_ids:
+        if response_tweet_ids and type(response_tweet_ids) == str:
             for tweet_id in response_tweet_ids.split(","):
                 tweet_data["response_tweet_id"] = int(tweet_id)
                 created_tweet = Tweet().create(tweet_data)

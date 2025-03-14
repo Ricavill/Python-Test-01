@@ -20,7 +20,7 @@ def init_error_handlers(app):
     @app.exception_handler(UnauthorizedException)
     def unauthorized_exception_handler(request, exception):
         message = exception.args[0]
-        logger.error(f"ValidationException: {message}")
+        logger.error(f"UnauthorizedException: {message}")
         return JSONResponse(status_code=401, content={"message": message, "error": True})
 
     @app.exception_handler(NotFoundException)

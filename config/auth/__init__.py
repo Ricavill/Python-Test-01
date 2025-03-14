@@ -34,6 +34,7 @@ def sign_in_admin_user(db: Session, user_data: dict):
     user_data['pass_hash'] = pass_hash
     user = User().create(user_data)
     user_repository.save(db, user)
+    return user
 
 
 def validate_credentials(db: Session, email: str, password: str):

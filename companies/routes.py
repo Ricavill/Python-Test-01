@@ -10,7 +10,7 @@ from tweet.tweet_repository import TweetRepository
 companies_router = APIRouter()
 
 
-@companies_router.post("/{company_id}/insights")
+@companies_router.get("/{company_id}/insights")
 def insights(company_id: str, db: Session = Depends(get_db)):
     tweet_repository = TweetRepository()
     # Se buscan todos los tweets por que son pocos, en la vida real si se necesitara solo buscar tweets de compañia se
@@ -31,7 +31,7 @@ def insights(company_id: str, db: Session = Depends(get_db)):
     return JSONResponse(status_code=200, content=response)
 
 
-@companies_router.post("/{company_id}/ai-insights")
+@companies_router.get("/{company_id}/ai-insights")
 def ai_insights(company_id: str, db: Session = Depends(get_db)):
     response = ConversationsService().analyze_company_conversations(db, company_id)
     return response

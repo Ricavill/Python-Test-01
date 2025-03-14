@@ -2,7 +2,6 @@ import datetime
 
 import jwt
 import pytest
-from jwt import InvalidTokenError
 
 from config.error import UnauthorizedException
 from utils.jwt_utils import get_token_from_data, decode_token

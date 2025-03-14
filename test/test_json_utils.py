@@ -18,6 +18,7 @@ def test_json_with_extra_whitespace():
     expected = {"key": "value"}
     assert convert_json_str_to_json(json_str) == expected
 
+
 def test_invalid_json():
     json_str = '{key: value}'  # Invalid JSON format
     assert convert_json_str_to_json(json_str) is None
@@ -37,9 +38,11 @@ def test_numeric_json():
     expected = 42
     assert convert_json_str_to_json(json_str) == expected
 
+
 def test_convert_number():
     json_str = 42
     assert convert_json_str_to_json(json_str) is None
+
 
 def test_json_with_nested_structure():
     json_str = '{"outer": {"inner": "value"}}'
