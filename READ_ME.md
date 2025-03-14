@@ -21,8 +21,8 @@ Also in order to use ai-insights the LLAMA_TOKEN variable needs a valid huggingf
 Execute the following commands(Check that docker cli is active):
 
 ```sh
-docker compose build --no-cache
-docker compose up
+docker compose up --build --no-cache
+docker compose up --build
 ```
 
 > **Note:** If there are errors while installing `numpy`, try installing C++ and C development tools from the [official Microsoft page](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
