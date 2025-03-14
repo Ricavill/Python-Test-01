@@ -47,7 +47,7 @@ class TweetRepository(EntityRepository):
         )
         return self.all(query)
 
-    def get_tweet_response_rate(self, db_session: Session):
+    def get_tweet_response_rate(self, db_session: Session,author_id: str) -> float:
         t1 = aliased(Tweet)
         t2 = aliased(Tweet)
 
@@ -55,12 +55,12 @@ class TweetRepository(EntityRepository):
             (func.count(func.distinct(t1.id)) * 100.0 / func.count(func.distinct(t2.id))).label("response_rate")
         ).select_from(t1).outerjoin(
             t2, t1.in_response_to_tweet_id == t2.tweet_id
-        ).filter(t2.inbound == True)
+        ).filter(t2.inbound == True,t1.author_id)
 
         result = db_session.execute(stmt).scalar()
         return result or 0
 
-    def get_conversation_ratio(self, db_session: Session):
+    def get_conversation_ratio(self, db_session: Session,author_id: str) -> float:
         t1 = aliased(Tweet)
         t2 = aliased(Tweet)
 
@@ -70,6 +70,7 @@ class TweetRepository(EntityRepository):
             t2, t1.in_response_to_tweet_id == t2.tweet_id
         ).filter(
             t1.inbound == 0,
+            t1.author_id == author_id,
             t2.inbound == 1
         )
 
