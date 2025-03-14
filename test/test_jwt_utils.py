@@ -5,6 +5,7 @@ import pytest
 
 from config.error import UnauthorizedException
 from utils.jwt_utils import get_token_from_data, decode_token
+from test import set_db_name
 
 
 def test_get_token_from_data():

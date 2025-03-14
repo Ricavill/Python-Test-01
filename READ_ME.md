@@ -18,7 +18,7 @@ DATABASE_URL=sqlite:///mi_base_de_datos.db
 Also in order to use ai-insights the LLAMA_TOKEN variable needs a valid huggingface token with access to the model meta-llama/Llama-3.1-8B-Instruct.
 
 ## 3. Build and Run the Application
-Execute the following commands:
+Execute the following commands(Check that docker cli is active):
 
 ```sh
 docker compose build --no-cache
@@ -79,3 +79,13 @@ http://<rooturl>:8000/api/companies/{company_id}/ai-insights
 To see all available endpoints, visit:  
 ```sh
 http://<rooturl>:8000/documentation#/
+```
+---
+# How to Run Tests and Get Test Coverage.
+## 1. Run Test
+Execute the following command(Check that docker cli is active):
+
+```sh
+docker docker compose up test 
+```
+You can also run the server, automatically it will run the test execution and coverage.

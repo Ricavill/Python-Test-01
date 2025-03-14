@@ -36,7 +36,3 @@ def user_data():
 @pytest.fixture
 def set_secret_key(monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "jelouAI")
-
-@pytest.fixture(scope="session", autouse=True)
-def set_test_env():
-    os.environ["SECRET_KEY"] = "jelouAI"

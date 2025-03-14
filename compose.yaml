@@ -8,6 +8,11 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
+  test:
+    build: .
+    volumes:
+      - .:/app  # Mounts the project directory inside the container
+    command: [ "pytest", "--cov=." ]
   server:
     build:
       context: .  # Use the current directory as the build context
