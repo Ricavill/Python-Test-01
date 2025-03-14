@@ -1,7 +1,5 @@
-import kagglehub
 import pandas as pd
 from fastapi import APIRouter, Depends
-from kagglehub import KaggleDatasetAdapter
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
@@ -23,10 +21,9 @@ def ingest(db: Session = Depends(get_db)):
     tweet = tweet_repository.get_one_tweet(db)
     if tweet:
         return JSONResponse(status_code=200, content={'message': "Ingest already Completed"})
-    df = kagglehub.load_dataset(
-        KaggleDatasetAdapter.PANDAS,
-        "thoughtvector/customer-support-on-twitter",
-        "sample.csv")
+    #Se utiliza el dataset de kaggle pero no se lo bajara con el loader de la libreria kaggle debido a que este
+    #trae problemas de permisos.
+    df = pd.read_csv("/app/dataset/customer-support-on-twitter.csv")
     # Se convierten valores en mal formato para poder ingresar a base de datos.
     df["in_response_to_tweet_id"] = df["in_response_to_tweet_id"].fillna(0).astype('int64').replace(0, None)
     df = df.where(pd.notna(df), None)
