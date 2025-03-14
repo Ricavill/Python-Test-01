@@ -11,7 +11,7 @@ services:
   test:
     build: .
     volumes:
-      - .:/app  # Mounts the project directory inside the container
+      - ./test:/app/test
     command: [ "pytest", "--cov=." ]
   server:
     build:

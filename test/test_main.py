@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pandas as pd
 from starlette.testclient import TestClient
 
-from test import admin_user, set_db_name
+from test import set_secret_key, admin_user, admin_token, user_data,set_db_name
 from tweet.tweet_repository import TweetRepository
 from user.user_repository import UserRepository
 

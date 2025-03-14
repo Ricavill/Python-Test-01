@@ -8,6 +8,7 @@ from config.error import ValidationException
 from conversations.conversations_service import ConversationsService
 from llm.llama import Llama
 from tweet.tweet_repository import TweetRepository
+from test import set_secret_key, admin_user, admin_token, user_data,set_db_name
 
 
 def test_analyze_company_conversations_no_tweets():
