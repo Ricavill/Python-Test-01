@@ -18,6 +18,8 @@ def insights(company_id: str, db: Session = Depends(get_db)):
     all_tweets = tweet_repository.get_all(db)
     if all_tweets.empty:
         raise NotFoundException("No tweets found")
+    #Se asume que la parte de los inbound/outbound tweets es de todos los mensajes, dado que nos piden outbound y la
+    #compañia no puede tener outbound.
     inbound_tweets = all_tweets[(all_tweets["inbound"] == 1)].shape[0]
     outbound_tweets = all_tweets[(all_tweets["inbound"] == 0)].shape[0]
     #Esta seccion en el documento era un poco ambigua, pero se asumo que todo es para el company
